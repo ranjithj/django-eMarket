@@ -31,11 +31,14 @@ class ItemCountView(View):
         else:
             raise Http404
 
+# view to handle the user cart logic
 class CartView(SingleObjectMixin, View):
 
     model = Cart
     template_name = "carts/view.html"
 
+    # Get the user cart
+    # Store the cart_id in session
     def get_object(self, *args, **kwargs):
         self.request.session.set_expiry(0)
         cart_id = self.request.session.get("cart_id")
@@ -51,6 +54,7 @@ class CartView(SingleObjectMixin, View):
             cart.save()
         return cart
 
+    # get request displays all the items in the user cart
     def get(self, request, *args, **kwargs):
 
         cart = self.get_object()
@@ -119,7 +123,7 @@ class CartView(SingleObjectMixin, View):
         template = self.template_name
         return render(request, template, context)
 
-
+# view to see the user checkout window with order and shipping details
 class CheckoutView(CartOrderMixin, FormMixin, DetailView):
     model = Cart
     template_name = 'carts/checkout_view.html'
@@ -198,12 +202,15 @@ class CheckoutView(CartOrderMixin, FormMixin, DetailView):
 
         return get_data
 
+# view to check the transaction details
 class CheckoutFinalView(CartOrderMixin, View):
     def post(self, request, *args, **kwargs):
         order = self.get_order()
         order_total = order.order_total
         nonce = request.POST.get("payment_method_nonce")
         if nonce:
+
+            #update the transaction in braintree sandbox
             result = braintree.Transaction.sale({
                 "amount":order_total,
                 "payment_method_nonce":nonce,

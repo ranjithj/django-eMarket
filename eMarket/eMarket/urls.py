@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from carts.views import CartView, ItemCountView, CheckoutView, CheckoutFinalView
 
-from orders.views import AddressSelectFormView, UserAddressCreateView, OrderList
+from orders.views import AddressSelectFormView, UserAddressCreateView, OrderList, OrderDetail
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^products/', include('products.urls')),
     url(r'^categories/', include('products.url_categories')),
     url(r'orders/$',OrderList.as_view(), name="orders"),
+    url(r'orders/(?P<pk>\d+)/$',OrderDetail.as_view(), name="order_detail"),
     url(r'cart/$',CartView.as_view(), name="cart"),
     url(r'cart/count/$',ItemCountView.as_view(), name="item_count"),
     url(r'checkout/$', CheckoutView.as_view(), name="checkout"),

@@ -129,8 +129,15 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "media_roo
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-
+#new user account activation
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
+
+#Braintree sandbox details
+BRAINTREE_MERCHANT_ID = 'xxxxxxxxxxxxxxxx'
+BRAINTREE_PUBLIC = 'xxxxxxxxxxxxxxx'
+BRAINTREE_PRIVATE = 'xxxxxxxxxxxxxxxxxxxxxxxxxx'
+
+
